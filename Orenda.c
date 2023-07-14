@@ -1,8 +1,4 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <conio.h>
-#include <windows.h>
+#include "STANDART LIBRARIES.h"
 
 int main() {
     int days, car, action;
@@ -11,11 +7,10 @@ int main() {
     float carCost[5] = {2000, 1800, 2200, 1200, 1000};
     char selectedCar[10] = "";
 
-    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-    
+    color();
+
     while (1) {
-        
+        system("cls||clear");
         printf("Choose an action:\n");
         printf("1. Select a car\n");
         printf("2. Show selected car\n");
