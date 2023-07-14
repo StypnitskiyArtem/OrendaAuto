@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <conio.h>
+#include <windows.h>
 
 int main() {
     int days, car, action;
@@ -9,6 +10,10 @@ int main() {
     char carList[5][10] = {"BMW", "Audi", "Mercedes", "Toyota", "Honda"};
     float carCost[5] = {2000, 1800, 2200, 1200, 1000};
     char selectedCar[10] = "";
+
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+    
     while (1) {
         
         printf("Choose an action:\n");
