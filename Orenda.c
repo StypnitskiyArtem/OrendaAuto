@@ -1,25 +1,7 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <conio.h>
-#include <windows.h>
+#include "STANDART LIBRARIES.h"
 
-#define FILENAME "users.bin"
-
-typedef struct {
-    char username[20];
-    char password[20];
-} User;
-
-void color()
-{
-   HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-   SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-}
-
-int checkUser(char *username, char *password) {
+int checkUser(char *username, char *password, User *user) {
     FILE *fp;
-    User user;
     int found = 0;
 
     fp = fopen(FILENAME, "rb");
@@ -28,8 +10,8 @@ int checkUser(char *username, char *password) {
         exit(1);
     }
 
-    while (fread(&user, sizeof(User), 1, fp)) {
-        if (strcmp(user.username, username) == 0 && strcmp(user.password, password) == 0) {
+    while (fread(user, sizeof(User), 1, fp)) {
+        if (strcmp(user->username, username) == 0 && strcmp(user->password, password) == 0) {
             found = 1;
             break;
         }
@@ -39,24 +21,6 @@ int checkUser(char *username, char *password) {
     return found;
 }
 
-void registerUser() {
-    FILE *fp;
-    User user;
-
-    fp = fopen(FILENAME, "ab");
-    if (fp == NULL) {
-        printf("Error opening file\n");
-        exit(1);
-    }
-
-    printf("Enter username: ");
-    scanf("%s", user.username);
-    printf("Enter password: ");
-    scanf("%s", user.password);
-
-    fwrite(&user, sizeof(User), 1, fp);
-    fclose(fp);
-}
 
 int main() {
     int days, car, action;
@@ -65,6 +29,7 @@ int main() {
     float carCost[5] = {2000, 1800, 2200, 1200, 1000};
     char selectedCar[10] = "";
     char username[20], password[20];
+    User user;
 
     color();
 
@@ -85,15 +50,16 @@ int main() {
             printf("Enter password: ");
             scanf("%s", password);
 
-            if (checkUser(username, password)) {
+            if (checkUser(username, password, &user)) {
                 printf("Login successful!\n");
 
                 while (1) {
                     system("cls||clear");
                     printf("Choose an action:\n");
                     printf("1. Select a car\n");
-                    printf("2. Show selected car\n");
-                    printf("3. Logout\n");
+                    printf("2. Show rented cars\n");
+                    printf("3. Delete rented car\n");
+                    printf("4. Logout\n");
                     action = getch() - '0';
                     system("cls||clear");
                     if (action == 1) {
@@ -111,23 +77,46 @@ int main() {
                         total = days * carCost[car-1];
                         system("cls||clear");
                         printf("Total rental cost: %.2f Grivnas\n", total);
+                        getchar();
+                        strcpy(user.rentedCars[user.rentedCarCount++], selectedCar);
+                        updateUser(&user);
                     } else if (action == 2) {
-                        if (strlen(selectedCar) == 0) {
-                            printf("You don't have any cars, would you like to rent one?\n");
+                        if (user.rentedCarCount == 0) {
+                            printf("You don't have any rented cars, would you like to rent one?\n");
                         } else {
-                            printf("Your selected car: %s\n", selectedCar);
+                            printf("Your rented cars:\n");
+                            for (int i = 0; i < user.rentedCarCount; i++) {
+                                printf("%d. %s\n", i+1, user.rentedCars[i]);
+                            }
                         }
                     } else if (action == 3) {
+                        if (user.rentedCarCount == 0) {
+                            printf("You don't have any rented cars to delete!\n");
+                        } else {
+                            printf("Select a car to delete:\n");
+                            for (int i = 0; i < user.rentedCarCount; i++) {
+                                printf("%d. %s\n", i+1, user.rentedCars[i]);
+                            }
+                            car = getch() - '0';
+                            for (int i = car-1; i < user.rentedCarCount-1; i++) {
+                                strcpy(user.rentedCars[i], user.rentedCars[i+1]);
+                            }
+                            user.rentedCarCount--;
+                            updateUser(&user);
+                        }
+                    } else if (action == 4) {
                         break;
                     }
                     getchar();
-                    getchar();
+                    
                 }
             } else {
                 printf("Invalid username or password!\n");
             }
         } else if (action == 3) {
             printf("Goodbye!\n");
+            getchar();
+            getchar();
             break;
         }
         getchar();
