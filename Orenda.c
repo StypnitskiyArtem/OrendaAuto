@@ -13,14 +13,14 @@ int main() {
         system("cls||clear");
         printf("Choose an action:\n");
         printf("1. Select a car\n");
-        printf("2. Show selected car\n");
+        printf("2. Show my selected cars\n");
         printf("3. Exit\n");
         action = getch() - '0';
         system("cls||clear");
         if (action == 1) {
             printf("Select a car:\n");
             for (int i = 0; i < 5; i++) {
-                printf("%d. %s (%.2f Grivnas/day)\n", i+1, carList[i], carCost[i]);
+                printf("%d. %s (%.2f Grivnas/one day)\n", i+1, carList[i], carCost[i]);
             }
             
             car = getch() - '0';
@@ -40,7 +40,7 @@ int main() {
                 printf("Your selected car: %s\n", selectedCar);
             }
         } else if (action == 3) {
-            printf("Goodbye!\n");
+            printf("Goodbye!!\n");
 
             break;
         }
