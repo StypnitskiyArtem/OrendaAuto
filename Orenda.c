@@ -5,6 +5,7 @@ int main() {
     float total;
     char carList[5][10] = {"BMW", "Audi", "Mercedes", "Toyota", "Honda"};
     float carCost[5] = {2000, 1800, 2200, 1200, 1000};
+    
     char selectedCar[10] = "";
 
     color();
@@ -24,6 +25,7 @@ int main() {
             }
             car = getch() - '0';
             strcpy(selectedCar, carList[car-1]);
+            
             system("cls||clear");
             printf("You have selected: %s\n", selectedCar);
             printf("Enter the number of rental days: ");
