@@ -7,7 +7,6 @@ int main() {
     float carCost[5] = {2000, 1800, 2200, 1200, 1000};
     char selectedCar[10] = "";
 
-    
     color();
 
     while (1) {
@@ -23,6 +22,7 @@ int main() {
             for (int i = 0; i < 5; i++) {
                 printf("%d. %s (%.2f Grivnas/day)\n", i+1, carList[i], carCost[i]);
             }
+            
             car = getch() - '0';
             strcpy(selectedCar, carList[car-1]);
             system("cls||clear");
