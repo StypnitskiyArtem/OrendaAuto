@@ -41,6 +41,7 @@ int main() {
             }
         } else if (action == 3) {
             printf("Goodbye!\n");
+
             break;
         }
         getchar();
