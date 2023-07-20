@@ -7,6 +7,7 @@ int main() {
     float carCost[5] = {2000, 1800, 2200, 1200, 1000};
     char selectedCar[10] = "";
 
+    
     color();
 
     while (1) {
